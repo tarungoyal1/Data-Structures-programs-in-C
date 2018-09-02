@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1534494711 source:/home/tarun/Documents/c programs/Factorial_using_pointer/main.c
+	<stdio.h>
+	<stdlib.h>
+

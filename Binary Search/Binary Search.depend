@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1534056729 source:/home/tarun/Documents/c programs/Binary Search/main.c
+	<stdio.h>
+	<stdlib.h>
+

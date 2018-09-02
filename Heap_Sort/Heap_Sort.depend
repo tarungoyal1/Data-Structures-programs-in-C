@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1534305206 source:/home/tarun/Documents/c programs/Heap_Sort/main.c
+	<stdio.h>
+	<stdlib.h>
+

@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1535355670 source:/home/tarun/Documents/c programs/Counting_sort/main.c
+	<stdio.h>
+	<stdlib.h>
+
