@@ -1,9 +1,19 @@
+/* Heap_Sort program implemented in C using pointers
+   Also contain the Max_Heapify function that is used in doing Heap_Sort
+   Made by Tarun Goyal,
+   find me on github at https://github.com/tarungoyal1
+ */
+
+/*
+Time complexity:
+Max_heapify = O(Logn)
+Heap_Sort = O(nLogn)
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 
-//Index must start from 1 otherwise heap parent property will messup
-
-
+//Index must start from 1 otherwise heap parent-child property will messup
 
 int *maximumNode(int *a, int *b){
     if(*a>*b)return a;
@@ -16,36 +26,45 @@ void swap(int *a, int *b){
     *b = temp;
 }
 
-void restore(int * heap, int index){
-    if(index<1)return;
+void max_heapify(int * heap, int current, int n){
 
-    int * parent = heap+index;
-    int * left = heap+2*index;
-    int * right = heap+(2*index+1);
+    int largest = current;
+    int left = 2*current;
+    int right = 2*current+1;
 
-//    printf("%d, %d, %d, %d\n", *parent, *left, *right, *(heap+(index/2)));
-//    return;
+    //if left child is greater than parent that is current
+    if(left<=n&&*(heap+left)>*(heap+largest))
+        largest = left;
 
-    //before checking for children check for its parent
-    if(index>1){
-        if(*(heap+(index/2))<*parent){
-            swap(heap+(index/2), parent);
-        }
-    }
+    //if right child is greater than parent that is current
+    if(right<=n&&*(heap+right)>*(heap+largest))
+        largest = right;
 
-    //now check for children
-    if(*parent<*left||*parent<*right){
-        swap(maximumNode(left, right), parent);
-        restore(heap, index/2);
+    //if parent is not the largest means any of the children is greater
+    if(largest!=current){
+        swap(heap+current, heap+largest);
+        max_heapify(heap, largest, n);
     }
 }
 
-
-void max_heapify(int * heap, int n){
-    for(int i=1;i<=n;i++)printf("%d\t",*(heap+i));
-    printf("\n-------------------------------------------------------------------------\n");
+void build_max_heap(int * heap, int n){
     for(int i=n/2;i>0;i--)
-        restore(heap,i);
+        max_heapify(heap,i, n);
+}
+
+void heap_sort(int * heap, int n){
+
+    build_max_heap(heap, n);
+
+    printf("\nMax Heap:\n");
+
+    for(int i=1;i<=n;i++)printf("%d, ",*(heap+i));
+
+    for(int i=n;i>1;){
+        swap(heap+i, heap+1);
+        max_heapify(heap, 1, --i);
+    }
+
 }
 
 int main(){
@@ -53,25 +72,14 @@ int main(){
     printf("Enter the number elements for heap:");
     scanf("%d", &n);
     int * heap = (int *)malloc(n*sizeof(int));
-*(heap+1) = 25;
-*(heap+2) = 35;
-*(heap+3) = 18;
-*(heap+4) = 9;
-*(heap+5) = 46;
-*(heap+6) = 70;
-*(heap+7) = 48;
-*(heap+8) = 23;
-*(heap+9) = 78;
-*(heap+10) = 12;
-*(heap+11) = 95;
-//    printf("Enter %d elements in heap, separated by space or line by line:\n", n);
-//    for(int i=1;i<=n;i++)scanf("%d", heap+i);
+    printf("Enter %d elements in heap, separated by space or line by line:\n", n);
+    for(int i=1;i<=n;i++)scanf("%d", heap+i);
 
-    max_heapify(heap, n);
+    heap_sort(heap, n);
 
-    for(int i=1;i<=n;i++)printf("%d:%d\n",i,*(heap+i));
-
-
+    printf("\n\nSorted array:\n");
+    for(int i=1;i<=n;i++)printf("%d, ",*(heap+i));
+    printf("\n");
 
     return 0;
 }
