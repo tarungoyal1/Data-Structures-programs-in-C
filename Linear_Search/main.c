@@ -5,6 +5,10 @@
 
 */
 
+/*
+Time compexity = O(n)
+*/
+
 
 #include <stdio.h>
 #include <stdlib.h>
