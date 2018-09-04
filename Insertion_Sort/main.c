@@ -1,18 +1,32 @@
+/*
+	Insertion Sort implementation in C
+	Made by Tarun Goyal
+	find me on github at http://github.com/tarungoyal1
+
+*/
+
+/*
+
+Time complexity = O(n^2)
+
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
 void insertion_sort(int * a, int n){
     for(int j=1;j<n;j++){
         int key = *(a+j);
-        int i = j-1;
-        while (i>-1&&*(a+i)>key){
+        int i = j;
+        while (i>-1&&*(a+i-1)>key){
             //swap the values
-            int temp = *(a+i+1);
-            *(a+i+1) = *(a+i);
-            *(a+i) = temp;
+            int temp = *(a+i);
+            *(a+i) = *(a+i-1);
+            *(a+i-1) = temp;
             --i;
         }
-        *(a+i+1) = key;
+        *(a+i) = key;
     }
 }
 
@@ -30,7 +44,7 @@ int main()
         scanf("%d", ar+i);
 
     insertion_sort(ar, n);
-
-    for(int i=0;i<n;i++)printf("%d\n", *(ar+i));
+    printf("\nSorted array:\n");
+    for(int i=0;i<n;i++)printf("%d ", *(ar+i));
     return 0;
 }

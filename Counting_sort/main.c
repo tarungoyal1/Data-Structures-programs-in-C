@@ -1,3 +1,23 @@
+/*
+    Counting Sort implementation in C
+    Made by Tarun Goyal
+    find me on github at https://github.com/tarungoyal1
+
+*/
+
+/*
+
+Time Complexity  = O(n+k)
+where:
+n = total no. of elements in the array
+k = max element in array
+
+
+
+
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -15,13 +35,12 @@ int main()
 
     int * ar = (int *) malloc(n*sizeof(int));
 
-    printf("Enter %d elements in the array:", n);for(int i=1;i<=n;i++)scanf("%d", ar+i);
-    for(int i=1;i<=n;i++)printf("%d, ", *(ar+i));
+    printf("Enter %d elements in the array:", n);
+    for(int i=1;i<=n;i++)
+        scanf("%d", ar+i);
 
-
-//    int * b = (int*)malloc(n*sizeof(int));
     int max = findmax(ar, n);
-    printf("\nmax = %d\n", max);
+    printf("\nmax = %d", max);
 
     int * c = (int*)malloc((max+1)*sizeof(int));
 
@@ -32,7 +51,7 @@ int main()
         *(c + *(ar+i)) = ++(*(c + *(ar+i)));
 
     // now c[i] contains number of element equal to i
-    for(int i=1;i<=max;i++)printf("%d,", *(c+i));
+//    for(int i=1;i<=max;i++)printf("%d,", *(c+i));
 
     for(int i=2;i<=max;i++)
         *(c + i) = *(c+i) + *(c+i-1);
@@ -40,7 +59,7 @@ int main()
     printf("\n");
 
     // now c[i] contains number of elements less than or equal to i
-    for(int i=1;i<=max;i++)printf("%d,", *(c+i));
+//    for(int i=1;i<=max;i++)printf("%d,", *(c+i));
 
     int * b = (int *) malloc(n*sizeof(int));
 
@@ -49,8 +68,8 @@ int main()
         *(b+*(c + *(ar+i))) = *(ar+i);
         *(c + *(ar+i)) = --*(c + *(ar+i));
     }
-    printf("\nSorted:\n");
-    for(int i=1;i<=n;i++)printf("%d, ", *(b+i));
+    printf("\nSorted array:\n");
+    for(int i=1;i<=n;i++)printf("%d ", *(b+i));
 
 
     return 0;
