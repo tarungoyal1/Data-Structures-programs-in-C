@@ -1,3 +1,18 @@
+/*
+	Bubble sort implementation in C
+	Made by Tarun Goyal
+	find me on github at https://github.com/tarungoyal1
+
+
+In bubble sort, we compare each element with its previous element and swap if second is larger than first
+till the largest of all is bubbled out at the last. Repeat the process in subarray excluding last index 
+each time.
+
+Time Complexity = O(n^2)
+
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
