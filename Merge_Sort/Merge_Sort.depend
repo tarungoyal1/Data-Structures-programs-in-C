@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1537068191 source:/home/tarun/Documents/DAA programs in C_github/Merge_Sort/main.c
+	<stdio.h>
+	<stdlib.h>
+
