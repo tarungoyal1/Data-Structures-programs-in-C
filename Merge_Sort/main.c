@@ -72,18 +72,21 @@ void mergesort(int start, int end){
 void merge(int start, int mid, int end){
  int n1=mid-start+1;
  int n2=end-mid;
- int la[99],ra[99],i,k,j;
- for(i=1;i<=n1;i++)la[i]=ar[start+i-1];
- for(j=1;j<=n2;j++)ra[j]=ar[mid+j];
- la[n1+1]=999;
- ra[n2+1]=999;
+ int *la = (int *)malloc(n1*sizeof(int));
+ int *ra = (int *)malloc(n2*sizeof(int));
+ int i,k,j;
+
+ for(i=1;i<=n1;i++)*(la+i)=*(ar+start+i-1);
+ for(j=1;j<=n2;j++)*(ra+j)=*(ar+mid+j);
+ *(la+n1+1)=999;
+ *(ra+n2+1)=999;
  i=1;j=1;
  for(k=start;k<=end;k++){
-  if(la[i]<=ra[j]){
-   ar[k]=la[i];
+  if(*(la+i)<=*(ra+j)){
+   *(ar+k)=*(la+i);
    i++;
   }else{
-   ar[k]=ra[j];
+   *(ar+k)=*(ra+j);
    j++;
   }
  }
