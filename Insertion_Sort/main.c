@@ -16,17 +16,17 @@ Time complexity = O(n^2)
 #include <stdlib.h>
 
 void insertion_sort(int * a, int n){
-    for(int j=1;j<n;j++){
-        int key = *(a+j);
-        int i = j;
-        while (i>-1&&*(a+i-1)>key){
+    for(int i=1;i<n;i++){
+        int key = *(a+i);
+        int j = i;
+        while (j>0&&*(a+j-1)>key){
             //swap the values
-            int temp = *(a+i);
-            *(a+i) = *(a+i-1);
-            *(a+i-1) = temp;
-            --i;
+            int temp = *(a+j);
+            *(a+j) = *(a+j-1);
+            *(a+j-1) = temp;
+            --j;
         }
-        *(a+i) = key;
+        *(a+j) = key;
     }
 }
 
