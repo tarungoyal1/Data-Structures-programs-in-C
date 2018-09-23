@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1537716631 source:/home/tarun/Documents/DAA programs in C_github/SquareRoot_using_Binary_Search/main.c
+	<stdio.h>
+	<stdlib.h>
+
