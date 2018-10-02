@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1538448849 source:/home/tarun/Documents/DAA programs in C_github/Basic_Array_operations/main.c
+	<stdio.h>
+	<stdlib.h>
+
