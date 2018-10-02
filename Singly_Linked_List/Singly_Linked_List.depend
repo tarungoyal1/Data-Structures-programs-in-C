@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1538468186 source:/home/tarun/Documents/DAA programs in C_github/Singly_Linked_List/main.c
+	<stdio.h>
+	<stdlib.h>
+
