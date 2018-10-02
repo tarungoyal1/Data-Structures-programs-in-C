@@ -1,3 +1,12 @@
+/*
+	Singly Linked list implementation in C
+	Demonstrating operations such as insertion, deletion, sorting, reversing, etc.
+
+	Made by Tarun Goyal (8 Feb, 2016)
+	find me at github -> https://github.com/tarungoyal1
+
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 
