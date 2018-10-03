@@ -3,7 +3,12 @@
 	Demonstrating operations such as insertion, deletion, sorting, reversing, etc.
 
 	Made by Tarun Goyal (8 Feb, 2016)
-	find me at github -> https://github.com/tarungoyal1c
+	find me at github -> https://github.com/tarungoyal1
+
+Here I have made linked list using head pointer where head itself is not node in the list but
+only points to the adress of first node in the list.
+You could also implement where Head is made the first node in the list like i have done
+in the circular linked list made in this very repo.
 
 */
 
