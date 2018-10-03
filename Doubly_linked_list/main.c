@@ -182,6 +182,38 @@ void deleteatpos(struct node *head){
     printf("Invalid position!");
 }
 
+void reverse(struct node *head){
+    struct node *p1=head->nlink, *p2 = p1->nlink;
+    p1->nlink = NULL;
+    p1->plink = p2;
+
+    while(p2!=NULL){
+        p2->plink = p2->nlink;
+        p2->nlink = p1;
+        p1 = p2;
+        p2 = p2->plink;
+    }
+
+    head->nlink = p1;
+}
+
+void sort(struct node *head){
+    //we are only swaping the values not changing any links
+    struct node *ptr=head, *q;
+    int tmp;
+
+    for(;ptr->nlink!=NULL;ptr=ptr->nlink){
+        for(q=ptr->nlink;q!=NULL;q=q->nlink){
+            if(ptr->info > q->info){
+                tmp = ptr->info;
+                ptr->info = q->info;
+                q->info = tmp;
+            }
+        }
+    }
+
+}
+
 
 int main()
 {
@@ -194,6 +226,8 @@ int main()
     head->plink = NULL;
     head->nlink = NULL;
     head->info = NULL;
+
+    printf("Creating the doubly linked list:\n");
 
     do{
         create(head);
@@ -216,6 +250,9 @@ int main()
         printf("Press 5 to delete at last\n");
         printf("Press 6 to delete a node by value\n");
         printf("Press 7 to delete at position\n");
+        printf("Press 8 to reverse the d. linked list\n");
+        printf("Press 9 to sort the d. linked list\n");
+        printf("Press -1 to exit the loop\n");
 
         scanf("%d",&opt);
 
@@ -250,14 +287,14 @@ int main()
                 deleteatpos(head);
                 printlist(head);
             break;
-//            case 8:
-//                reverse(head);
-//                printlist(head);
-//            break;
-//            case 9:
-//                sort(head);
-//                printlist(head);
-//            break;
+            case 8:
+                reverse(head);
+                printlist(head);
+            break;
+            case 9:
+                sort(head);
+                printlist(head);
+            break;
         }
     }
 

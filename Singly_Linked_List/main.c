@@ -3,7 +3,7 @@
 	Demonstrating operations such as insertion, deletion, sorting, reversing, etc.
 
 	Made by Tarun Goyal (8 Feb, 2016)
-	find me at github -> https://github.com/tarungoyal1
+	find me at github -> https://github.com/tarungoyal1c
 
 */
 
@@ -194,6 +194,8 @@ int main(){
     head->link = NULL;
     head->info = NULL;
 
+    printf("Create singly linked list:\n");
+    
     do{
         create(head);
         printf("Press y to repeat again:");
