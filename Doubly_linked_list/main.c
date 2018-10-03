@@ -1,18 +1,17 @@
 /*
-	Singly Linked list implementation in C
-	Demonstrating operations such as insertion, deletion, sorting, reversing, etc.
-
-	Made by Tarun Goyal (8 Feb, 2016)
-	find me at github -> https://github.com/tarungoyal1c
+    Doubly linked list in C
+    Implemented by Tarun Goyal (11 March, 2016)
+    find me on github-> https://github.com/tarungoyal1
 
 */
 
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 struct node{
-  int info;
-  struct node *link;
+    struct node *plink;
+    int info;
+    struct node *nlink;
 };
 
 struct node *getnewnode(){
@@ -27,50 +26,63 @@ void create(struct node * head){
     struct node *newnode=getnewnode(), *ptr=head;
 
     //on first insertion we are working on head (as ptr points to address of head)
-    while(ptr->link!=NULL)
-        ptr=ptr->link;
+    while(ptr->nlink!=NULL)
+        ptr=ptr->nlink;
 
     //ptr reached to last node which has no address to any further node
 
-    ptr->link=newnode;
-    newnode->link=NULL;
+    ptr->nlink=newnode;
+    newnode->plink=ptr;
+    newnode->nlink=NULL;
 }
 
 void printlist(struct node * head){
-    struct node *ptr=head->link;
-    if(ptr==NULL){
-        printf("EMPTY LIST");
+    //this way of printing the doubly linked list handles all cases of deletion
+    //you can print simply as you like
+    struct node *ptr=head;
+    if(ptr==NULL||ptr->nlink==NULL){
+        printf("EMPTY LIST\n");
         return;
     }
 
-    //You can simply print the list from while loop below omitting next 2 lines
-    printf("\nFinal linked list:\n%d", ptr->info);
-    ptr=ptr->link;
 
-    while(ptr!=NULL){
-        printf(" -> %d",ptr->info);
-        ptr=ptr->link;
+    //You can simply print the list as you do singly linked list but i had to embellish the printing
+    if(ptr->nlink!=NULL){
+        printf("\nFinal linked list:\nNULL <- %d ->", ptr->nlink->info);
+        if(ptr->nlink->nlink==NULL){
+            printf(" NULL\n");
+            return;
+        }
+        ptr=ptr->nlink->nlink;
     }
-    printf("\n");
+
+    while(ptr->nlink!=NULL){
+        printf(" <- %d -> ",ptr->info);
+        ptr=ptr->nlink;
+    }
+    printf(" <- %d -> NULL\n", ptr->info);
 }
 
 void addatbeg(struct node *head){
     struct node *newnode=getnewnode();
 
-    newnode->link=head->link;
-    head->link=newnode;
+    newnode->plink=NULL;
+    newnode->nlink=head->nlink;
+    head->nlink=newnode;
 }
 
 void addatend(struct node *head){
  struct node *newnode=getnewnode(), *ptr=head;
 
- while(ptr->link!=NULL) ptr=ptr->link;
- ptr->link=newnode;
- newnode->link=NULL;
+ while(ptr->nlink!=NULL) ptr=ptr->nlink;
+
+ ptr->nlink=newnode;
+ newnode->plink=ptr;
+ newnode->nlink=NULL;
 }
 
 void addafternode(struct node *head){
-    if(head->link==NULL)return;
+    if(head->nlink==NULL)return;
     int val;
     printf("Enter node in the list after which u gotta insert:");
     scanf("%d",&val);
@@ -78,29 +90,32 @@ void addafternode(struct node *head){
     //val arg is info at a node already present in the list
    struct node *newnode=getnewnode(), *ptr=head;
 
-   while(ptr->link!=NULL){
+   while(ptr->nlink!=NULL){
     if(ptr->info==val){
-        newnode->link=ptr->link;
-        ptr->link=newnode;
+         newnode->plink=ptr;
+         newnode->nlink=ptr->nlink;
+         ptr->nlink=newnode;
         return;
     }
-    ptr=ptr->link;
+    ptr=ptr->nlink;
    }
 }
 
 void deleteatbeg(struct node *head){
     //attempting to delete in empty list
-    if(head->link==NULL){
+    if(head->nlink==NULL){
         printf("UNDERFLOW\n");
         return;
-  }
+    }
 
-  head->link=head->link->link;
+  head->nlink=head->nlink->nlink;
+  head->plink = NULL;
+
 }
 
 void deleteafternode(struct node *head){
     //attempting to delete in empty list
-    if(head->link==NULL){
+    if(head->nlink==NULL){
         printf("UNDERFLOW\n");
         return;
     }
@@ -108,21 +123,39 @@ void deleteafternode(struct node *head){
     printf("Enter value of node you wish to delete:");
     scanf("%d",&val);
     struct node *ptr=head;
-    while(ptr->link!=NULL){
-        if(ptr->link->info==val){
+    while(ptr->nlink!=NULL){
+        if(ptr->nlink->info==val){
             printf("Node found, so deleting %d\n", val);
-            ptr->link=ptr->link->link;
+            //if clause handles if node to be deleted is at last
+            if(ptr->nlink->nlink==NULL){
+                ptr->nlink = NULL;
+                return;
+            }
+            ptr->nlink->nlink->plink=ptr;
+            ptr->nlink=ptr->nlink->nlink;
             return;
         }
-        ptr=ptr->link;
+        ptr=ptr->nlink;
     }
     printf("Node not found in the list\n");
 
 }
 
+void deleteatlast(struct node *head){
+    //attempting to delete in empty list
+    if(head->nlink==NULL){
+        printf("UNDERFLOW\n");
+        return;
+    }
+    struct node *ptr=head;
+    while(ptr->nlink->nlink!=NULL)
+        ptr=ptr->nlink;
+    ptr->nlink=NULL;
+}
+
 void deleteatpos(struct node *head){
     //attempting to delete in empty list
-    if(head->link==NULL){
+    if(head->nlink==NULL){
         printf("UNDERFLOW\n");
         return;
     }
@@ -131,71 +164,71 @@ void deleteatpos(struct node *head){
     scanf("%d",&pos);
     int c=1;
     struct node *ptr=head;
-    while(ptr->link!=NULL){
+    while(ptr->nlink!=NULL){
         if(pos==c){
-            printf("Node found at position %d is %d, so deleting %d\n", pos, ptr->link->info, ptr->link->info);
-            ptr->link=ptr->link->link;
+            printf("Node found at position %d is %d, so deleting %d\n", pos, ptr->nlink->info, ptr->nlink->info);
+
+            if(ptr->nlink->nlink==NULL){
+                ptr->nlink = NULL;
+                return;
+            }
+            ptr->nlink->nlink->plink=ptr;
+            ptr->nlink=ptr->nlink->nlink;
             return;
         }
         ++c;
-        ptr=ptr->link;
+        ptr=ptr->nlink;
     }
     printf("Invalid position!");
 }
 
-void deleteatlast(struct node *head){
-    //attempting to delete in empty list
-    if(head->link==NULL){
-        printf("UNDERFLOW\n");
-        return;
-    }
-    struct node *ptr=head;
-    while(ptr->link->link!=NULL)
-        ptr=ptr->link;
-    ptr->link=NULL;
-}
-
 void reverse(struct node *head){
-    struct node *next,*ptr=head->link,*prev=NULL;
-    while(ptr!=NULL){
-        next=ptr->link;
-        ptr->link=prev;
-        prev=ptr;
-        ptr=next;
+    struct node *p1=head->nlink, *p2 = p1->nlink;
+    p1->nlink = NULL;
+    p1->plink = p2;
+
+    while(p2!=NULL){
+        p2->plink = p2->nlink;
+        p2->nlink = p1;
+        p1 = p2;
+        p2 = p2->plink;
     }
-    head->link=prev;
+
+    head->nlink = p1;
 }
 
 void sort(struct node *head){
-
+    //we are only swaping the values not changing any links
     struct node *ptr=head, *q;
     int tmp;
 
-    for(;ptr->link!=NULL;ptr=ptr->link){
-        for(q=ptr->link;q!=NULL;q=q->link){
+    for(;ptr->nlink!=NULL;ptr=ptr->nlink){
+        for(q=ptr->nlink;q!=NULL;q=q->nlink){
             if(ptr->info > q->info){
                 tmp = ptr->info;
                 ptr->info = q->info;
                 q->info = tmp;
-
             }
         }
     }
 
 }
 
-int main(){
+
+int main()
+{
     int opt,val, optc=0;
     char o;
 
     //head is tracking pointer, it holds only the address of first node in linked list
     //head itself is not considered as a node in linked list and contains no actual data
     struct node *head;
-    head->link = NULL;
+    head->plink = NULL;
+    head->nlink = NULL;
     head->info = NULL;
 
-    printf("Create singly linked list:\n");
-    
+    printf("Creating the doubly linked list:\n");
+
     do{
         create(head);
         printf("Press y to repeat again:");
@@ -209,7 +242,18 @@ int main(){
 
     while(1){
         printf("------------------\nOperation ID: %d\n-------------------",optc++);
-        printf("\nPress 1 to add at begining\nPress 2 to add at end\nPress 3 to add after a certain node\nPress 4 to delete at begin\nPress 5 to delete a node by value\nPress 6 to delete at certain position\nPress 7 to delete at last\nPress 8 to reverse the list\nPress 9 to sort the list\n");
+
+        printf("\nPress 1 to add at begin\n");
+        printf("Press 2 to add at end\n");
+        printf("Press 3 to add after a node\n");
+        printf("Press 4 to delete at begin\n");
+        printf("Press 5 to delete at last\n");
+        printf("Press 6 to delete a node by value\n");
+        printf("Press 7 to delete at position\n");
+        printf("Press 8 to reverse the d. linked list\n");
+        printf("Press 9 to sort the d. linked list\n");
+        printf("Press -1 to exit the loop\n");
+
         scanf("%d",&opt);
 
         if(opt<0)break;
@@ -232,16 +276,15 @@ int main(){
                 printlist(head);
             break;
             case 5:
-
-                deleteafternode(head);
+                 deleteatlast(head);
                 printlist(head);
             break;
             case 6:
-                deleteatpos(head);
+                deleteafternode(head);
                 printlist(head);
             break;
             case 7:
-                deleteatlast(head);
+                deleteatpos(head);
                 printlist(head);
             break;
             case 8:
@@ -254,5 +297,6 @@ int main(){
             break;
         }
     }
+
     return 0;
 }
